@@ -4,18 +4,25 @@ const email=document.querySelector('#email')
 const pass=document.querySelector('#password')
 const repass=document.querySelector('#repassword')
 
-form.addEventListener('submit',submit)
+form.addEventListener('submit', submit)
 
-function error(error,text) {
-    error.className='form-control is-invalid'
-    error.nextElementSibling.innerHTML=`<p>${text}</p>`
-    error.nextElementSibling.className='invalid-feedback'
+function error(input,text){
+    input.className='form-control is-invalid'
+    input.nextElementSibling.innerHTML=`<p>${text}</p>`
+    input.nextElementSibling.className='invalid-feedback'
+}
+function success(input){
+    input.className='form-control is-valid'
+    input.nextElementSibling.innerHTML=''
+    input.nextElementSibling.className=''
 }
 
-function success(success) {
-    success.className='form-control is-valid'
-    success.nextElementSibling.innerHTML=`<p></p>`
-    success.nextElementSibling.className=''
+function ifelse(input,text){
+    if(input.value == ''){
+        error(input,text)
+    }else{
+        success(input)
+    }
 }
 
 function validateEmail(email){
@@ -27,34 +34,16 @@ function validateEmail(email){
 };
 
 function submit(event) {
-    if(username.value == ''){
-        error(username,'Please Enter Your Username')
-    }else{
-        success(username)
-    }
+    ifelse(username,'Please Enter Username')
+    ifelse(email,"Please Enter Email")
+    ifelse(pass,"Please Enter Password")
+    ifelse(repass,"Please Enter Re-Password")
 
-    if(email.value == ''){
-        error(email,'Please Enter Your Email')
-    }else if(!validateEmail(email.value)){
-        error(email,'You have entered an incorrect email address.')
-    }else{
-        success(email)
+    if(repass !== "" && repass.value !== pass.value){
+        error(repass,"The Passwords do not Match")
     }
-
-    if(pass.value == ''){
-        error(pass,'Please Enter Your Password')
-    }else{
-        success(pass)
+    if(!validateEmail(email)){
+        error(email,'Please use the @ symbol')
     }
-
-    if(repass.value == ""){
-        error(repass,'Please Enter Your Rep Password')
-    }else{
-        if(pass.value !== repass.value){
-        error(repass,'Password do not match')
-        }else{
-            success(repass)
-        }
-    }
-    event.preventDefault()
+    event.preventDefault();
 }
