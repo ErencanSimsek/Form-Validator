@@ -33,17 +33,33 @@ function validateEmail(email){
     );
 };
 
+function onMatch(){
+    if(repass !== "" && repass.value !== pass.value){
+        error(repass,"The Passwords do not Match")
+    }
+}
+
+function characterNumber(input, min, text){
+    if(input.value !== "" && input.value.length < min){
+        error(input, text)
+    }
+}
+
+function characterPassword(){
+
+}
+
 function submit(event) {
     ifelse(username,'Please Enter Username')
     ifelse(email,"Please Enter Email")
     ifelse(pass,"Please Enter Password")
     ifelse(repass,"Please Enter Re-Password")
-
-    if(repass !== "" && repass.value !== pass.value){
-        error(repass,"The Passwords do not Match")
-    }
+    characterNumber(username, 7, "The username must be at least 7 characters long.")
+    characterNumber(pass, 8, "The username must be at least 7 password long.")
     if(!validateEmail(email)){
         error(email,'Please use the @ symbol')
     }
+    onMatch()
+    
     event.preventDefault();
 }
